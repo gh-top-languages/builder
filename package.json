@@ -1,0 +1,21 @@
+{
+  "name": "github-top-languages-sandbox",
+  "version": "0.0.1",
+  "description": "Interactive sandbox for testing and previewing github-top-languages chart configurations",
+  "author": "Mason L'Etoile",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/masonlet/github-top-languages-sandbox"
+  },
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0",
+    "vite": "^6.0.0"
+  }
+}
