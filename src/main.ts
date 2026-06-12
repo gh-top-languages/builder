@@ -1,8 +1,8 @@
-import type { Language, ChartType } from "github-top-languages-lib/types.js";
-import { generateChartData        } from "github-top-languages-lib/render/chart.js";
-import { renderSvg                } from "github-top-languages-lib/render/svg.js";
-import { THEMES                   } from "github-top-languages-lib/constants/themes.js";
-import { DEFAULT_CONFIG           } from "github-top-languages-lib/constants/config.js";
+import type { Language, ChartType } from "@gh-top-languages/lib/types.js";
+import { generateChartData        } from "@gh-top-languages/lib/render/chart.js";
+import { renderSvg                } from "@gh-top-languages/lib/render/svg.js";
+import { THEMES                   } from "@gh-top-languages/lib/constants/themes.js";
+import { DEFAULT_CONFIG           } from "@gh-top-languages/lib/constants/config.js";
 
 type ThemeKey = keyof typeof THEMES;
 
