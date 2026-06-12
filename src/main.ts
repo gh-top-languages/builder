@@ -1,8 +1,10 @@
-import type { Language     } from "github-top-languages-lib/types.js";
-import { generateChartData } from "github-top-languages-lib/render/chart.js";
-import { renderSvg         } from "github-top-languages-lib/render/svg.js";
-import { THEMES            } from "github-top-languages-lib/constants/themes.js";
-import { DEFAULT_CONFIG    } from "github-top-languages-lib/constants/config.js";
+import type { Language, ChartType } from "github-top-languages-lib/types.js";
+import { generateChartData        } from "github-top-languages-lib/render/chart.js";
+import { renderSvg                } from "github-top-languages-lib/render/svg.js";
+import { THEMES                   } from "github-top-languages-lib/constants/themes.js";
+import { DEFAULT_CONFIG           } from "github-top-languages-lib/constants/config.js";
+
+type ThemeKey = keyof typeof THEMES;
 
 const DEFAULT_LANGUAGES: Language[] = [
   { lang: "TypeScript", pct: 40.0 },
@@ -12,12 +14,20 @@ const DEFAULT_LANGUAGES: Language[] = [
   { lang: "Python",     pct: 8.0  },
 ];
 
+function getSelectValue(id: string, fallback: string): string {
+  const el = document.getElementById(id) as HTMLSelectElement | null;
+  return el?.value ?? fallback;
+}
+
 function renderChart(languages: Language[]): void {
   const preview = document.getElementById("chart-preview");
   if (!preview) return;
 
-  const theme  = THEMES.default;
-  const result = generateChartData(languages, theme, "donut", DEFAULT_CONFIG.WIDTH, false);
+  const themeKey  = getSelectValue("theme", "default") as ThemeKey;
+  const chartType = getSelectValue("type",  "donut")   as ChartType;
+  const theme     = THEMES[themeKey];
+
+  const result = generateChartData(languages, theme, chartType, DEFAULT_CONFIG.WIDTH, false);
   const svg    = renderSvg(
     DEFAULT_CONFIG.WIDTH,
     DEFAULT_CONFIG.HEIGHT,
@@ -29,6 +39,7 @@ function renderChart(languages: Language[]): void {
   );
 
   preview.innerHTML = svg;
+
   const svgEl = preview.querySelector("svg");
   if (svgEl) {
     svgEl.setAttribute("viewBox", `0 0 ${DEFAULT_CONFIG.WIDTH} ${DEFAULT_CONFIG.HEIGHT}`);
@@ -37,4 +48,10 @@ function renderChart(languages: Language[]): void {
   }
 }
 
-renderChart(DEFAULT_LANGUAGES);
+function init(): void {
+  renderChart(DEFAULT_LANGUAGES);
+  document.getElementById("theme")?.addEventListener("change", () => renderChart(DEFAULT_LANGUAGES));
+  document.getElementById("type")?.addEventListener("change",  () => renderChart(DEFAULT_LANGUAGES));
+}
+
+init();
