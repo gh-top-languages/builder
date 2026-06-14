@@ -3,7 +3,7 @@ import { defineConfig } from "vite"
 export default defineConfig({
   root: "src",
   publicDir: "../public",
-  base: "./",
+  base: "/gh-top-languages-demo/",
   build: {
     outDir: "../dist",
     emptyOutDir: true,
