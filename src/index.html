@@ -21,7 +21,9 @@
     <section class="preview">
       <div id="chart-preview"></div>
     </section>
-    <section class="controls">
+    <section class="settings">
+      <h3 class="panel-heading">Controls</h3>
+
       <label for="theme">Theme</label>
       <select id="theme" class="input">
         <option value="default">Default</option>
@@ -48,6 +50,31 @@
 
       <label for="stroke">Stroke</label>
       <input id="stroke" type="checkbox"/>
+
+      <hr class="section-divider"/>
+
+      <h3 class="panel-heading">Output</h3>
+
+      <label>Host</label>
+      <div class="url-input-row">
+        <span class="url-affix">https://</span>
+        <input id="api-host" class="input" type="text" placeholder="your-deployment.vercel.app"/>
+      </div>
+
+      <label>Endpoint</label>
+      <input id="api-endpoint" class="input" type="text" value="/api/languages"/>
+
+      <label>Embed URL</label>
+      <div class="copy-row">
+        <input id="embed-url" class="input" type="text" readonly/>
+        <button class="btn" id="copy-url">Copy</button>
+      </div>
+
+      <label>Markdown</label>
+      <div class="copy-row">
+        <input id="embed-markdown" class="input" type="text" readonly/>
+        <button class="btn" id="copy-markdown">Copy</button>
+      </div>
     </section>
   </main>
 </body>

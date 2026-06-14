@@ -85,6 +85,50 @@ function buildParams(): ReturnType<typeof parseQueryParams> {
   return parseQueryParams(query);
 }
 
+function buildEmbedUrl(baseUrl: string): string {
+  const q: string[] = [];
+  const isNone = isNoneTheme();
+
+  const theme = getInputValue("theme", "default");
+  if (!isNone && theme !== "default") q.push(`theme=${theme}`);
+
+  const type = getInputValue("type", "donut");
+  if (type !== "donut") q.push(`type=${type}`);
+
+  const count = getInputValue("count", String(DEFAULT_CONFIG.COUNT));
+  if (count !== String(DEFAULT_CONFIG.COUNT)) q.push(`count=${count}`);
+
+  const width = getInputValue("width", String(DEFAULT_CONFIG.WIDTH));
+  if (width !== String(DEFAULT_CONFIG.WIDTH)) q.push(`width=${width}`);
+
+  const height = getInputValue("height", String(DEFAULT_CONFIG.HEIGHT));
+  if (height !== String(DEFAULT_CONFIG.HEIGHT)) q.push(`height=${height}`);
+
+  const strokeEl = document.getElementById("stroke") as HTMLInputElement | null;
+  if (strokeEl?.checked) q.push("stroke=true");
+
+  if (isNone) {
+    const countNum = parseInt(count, 10);
+    for (let i = 1; i <= countNum; i++) {
+      const el = document.getElementById(`c${i}`) as HTMLInputElement | null;
+      if (el) q.push(`c${i}=${el.value.slice(1)}`);
+    }
+  }
+
+  return q.length > 0 ? `${baseUrl}?${q.join("&")}` : baseUrl;
+}
+
+function updateEmbed(): void {
+  const host       = (document.getElementById("api-host")     as HTMLInputElement | null)?.value.trim() || "your-deployment.vercel.app";
+  const endpoint   = (document.getElementById("api-endpoint") as HTMLInputElement | null)?.value.trim() || "/api/languages";
+  const baseUrl    = `https://${host}${endpoint}`;
+  const url        = buildEmbedUrl(baseUrl);
+  const embedUrlEl = document.getElementById("embed-url")      as HTMLInputElement | null;
+  const embedMdEl  = document.getElementById("embed-markdown") as HTMLInputElement | null;
+  if (embedUrlEl) embedUrlEl.value = url;
+  if (embedMdEl)  embedMdEl.value  = `![Top Languages](${url})`;
+}
+
 function renderChart(languages: Language[]): void {
   const preview = document.getElementById("chart-preview");
   if (!preview) return;
@@ -114,6 +158,8 @@ function renderChart(languages: Language[]): void {
     svgEl.setAttribute("width", "100%");
     svgEl.setAttribute("height", "100%");
   }
+
+  updateEmbed();
 }
 
 function clampToMin(el: HTMLInputElement): void {
@@ -145,6 +191,21 @@ function init(): void {
   document.getElementById("count")?.addEventListener("change", () => {
     updateColourPickers();
     renderChart(DEFAULT_LANGUAGES);
+  });
+
+  updateEmbed();
+
+  document.getElementById("api-host")?.addEventListener("input", updateEmbed);
+  document.getElementById("api-endpoint")?.addEventListener("input", updateEmbed);
+
+  document.getElementById("copy-url")?.addEventListener("click", () => {
+    const el = document.getElementById("embed-url") as HTMLInputElement | null;
+    if (el?.value) void navigator.clipboard.writeText(el.value);
+  });
+
+  document.getElementById("copy-markdown")?.addEventListener("click", () => {
+    const el = document.getElementById("embed-markdown") as HTMLInputElement | null;
+    if (el?.value) void navigator.clipboard.writeText(el.value);
   });
 }
 

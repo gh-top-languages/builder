@@ -16,7 +16,7 @@
   overflow:        hidden;
 }
 
-.controls {
+.settings {
   flex-shrink: 0;
   height:      35vh;
   padding:     1rem;
@@ -38,7 +38,7 @@
     padding: 2rem;
   }
 
-  .controls {
+  .settings {
     width:       320px;
     height:      100%;
     flex-shrink: 0;
