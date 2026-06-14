@@ -63,6 +63,7 @@ function updateColourPickers(): void {
 function buildParams(): ReturnType<typeof parseQueryParams> {
   const count  = getInputValue("count", String(DEFAULT_CONFIG.COUNT));
   const isNone = isNoneTheme();
+  const strokeEl = document.getElementById("stroke") as HTMLInputElement | null;
 
   const query: QueryParams = {
     theme:  isNone ? undefined : getInputValue("theme", "default"),
@@ -70,6 +71,7 @@ function buildParams(): ReturnType<typeof parseQueryParams> {
     count,
     width:  getInputValue("width",  String(DEFAULT_CONFIG.WIDTH)),
     height: getInputValue("height", String(DEFAULT_CONFIG.HEIGHT)),
+    stroke: strokeEl?.checked ? "true" : "false",
   };
 
   if (isNone) {
@@ -93,7 +95,7 @@ function renderChart(languages: Language[]): void {
     params.selectedTheme,
     params.chartType,
     params.width,
-    false
+    params.stroke
   );
   const svg = renderSvg(
     params.width, params.height,
@@ -118,7 +120,7 @@ function init(): void {
   updateColourPickers();
   renderChart(DEFAULT_LANGUAGES);
 
-  ["type", "width", "height"].forEach(id =>
+  ["type", "width", "height", "stroke"].forEach(id =>
     document.getElementById(id)?.addEventListener("change", () => renderChart(DEFAULT_LANGUAGES))
   );
 
