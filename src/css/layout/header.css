@@ -1,24 +1,26 @@
 header {
-  text-align: center;
-  margin-bottom: 1.5rem;
+  text-align:    center;
+  padding:       1.25rem 1rem 0.75rem;
+  flex-shrink:   0;
+  border-bottom: 1px solid var(--border);
 }
 
 header h1 {
-  font-size: 1.8rem;
-  font-weight: 600;
-  margin-bottom: 0.5rem;
+  font-size:     1.8rem;
+  font-weight:   600;
+  margin-bottom: 0.25rem;
 }
 
 header p {
-  color: var(--txt-muted);
+  color:     var(--txt-muted);
   font-size: 0.95rem;
 }
 
 header a {
-  color: var(--accent);
-  font-weight: 500;
+  color:           var(--accent);
+  font-weight:     500;
   text-decoration: underline;
-  transition: color 0.2s ease;
+  transition:      color 0.2s ease;
 }
 
 header a:hover {

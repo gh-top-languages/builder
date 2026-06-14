@@ -112,13 +112,26 @@ function renderChart(languages: Language[]): void {
   if (svgEl) {
     svgEl.setAttribute("viewBox", `0 0 ${params.width} ${params.height}`);
     svgEl.setAttribute("width", "100%");
-    svgEl.removeAttribute("height");
+    svgEl.setAttribute("height", "100%");
   }
+}
+
+function clampToMin(el: HTMLInputElement): void {
+  const min = parseInt(el.min, 10);
+  const val = parseInt(el.value, 10);
+  if (Number.isNaN(val) || val < min) el.value = String(min);
 }
 
 function init(): void {
   updateColourPickers();
   renderChart(DEFAULT_LANGUAGES);
+
+  const widthEl  = document.getElementById("width")  as HTMLInputElement | null;
+  const heightEl = document.getElementById("height") as HTMLInputElement | null;
+  if (widthEl)  widthEl.min  = String(DEFAULT_CONFIG.MIN_WIDTH);
+  if (heightEl) heightEl.min = String(DEFAULT_CONFIG.MIN_HEIGHT);
+  widthEl?.addEventListener( "blur", () => { clampToMin(widthEl);  renderChart(DEFAULT_LANGUAGES); });
+  heightEl?.addEventListener("blur", () => { clampToMin(heightEl); renderChart(DEFAULT_LANGUAGES); });
 
   ["type", "width", "height", "stroke"].forEach(id =>
     document.getElementById(id)?.addEventListener("change", () => renderChart(DEFAULT_LANGUAGES))
