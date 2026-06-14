@@ -1,0 +1,18 @@
+[
+  { "lang": "TypeScript",  "pct": 17.0 },
+  { "lang": "JavaScript",  "pct": 14.0 },
+  { "lang": "Python",      "pct": 11.0 },
+  { "lang": "C++",         "pct": 10.0 },
+  { "lang": "HTML",        "pct": 9.0  },
+  { "lang": "CSS",         "pct": 8.0  },
+  { "lang": "Java",        "pct": 7.0  },
+  { "lang": "C#",          "pct": 6.0  },
+  { "lang": "Rust",        "pct": 5.0  },
+  { "lang": "Go",          "pct": 4.0  },
+  { "lang": "Shell",       "pct": 3.0  },
+  { "lang": "Kotlin",      "pct": 2.5  },
+  { "lang": "Swift",       "pct": 1.5  },
+  { "lang": "Lua",         "pct": 1.0  },
+  { "lang": "Ruby",        "pct": 0.6  },
+  { "lang": "PHP",         "pct": 0.4  }
+]
