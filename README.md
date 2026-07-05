@@ -1,6 +1,6 @@
 # GitHub Top Languages Builder
 
-Interactive builder for [github-top-languages/api](https://github.com/gh-top-languages/api) — preview charts, customize settings, and generate embeddable URLs and Markdown snippets for GitHub READMEs and websites.
+Interactive builder for [gh-top-languages/api](https://github.com/gh-top-languages/api) — preview charts, customize settings, and generate embeddable URLs and Markdown snippets for GitHub READMEs and websites.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-green)](./LICENSE)
 [![lib](https://img.shields.io/npm/v/@gh-top-languages/lib)](https://www.npmjs.com/package/@gh-top-languages/lib)

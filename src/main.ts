@@ -138,14 +138,12 @@ function renderChart(languages: Language[]): void {
     languages.slice(0, params.count),
     params.selectedTheme,
     params.chartType,
-    params.width,
     params.stroke
   );
   const svg = renderSvg(
     params.width, params.height,
     params.selectedTheme.bg,
-    result.segments,
-    result.legend,
+    result,
     params.chartTitle,
     params.selectedTheme.text
   );
