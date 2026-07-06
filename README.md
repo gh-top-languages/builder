@@ -5,6 +5,8 @@ Interactive builder for [gh-top-languages/api](https://github.com/gh-top-languag
 [![License: MIT](https://img.shields.io/badge/License-MIT-green)](./LICENSE)
 [![lib](https://img.shields.io/npm/v/@gh-top-languages/lib)](https://www.npmjs.com/package/@gh-top-languages/lib)
 
+![Example Page](images/page.png)
+
 ## Features
 - Live chart preview with configurable theme, colours, type, count, size, and stroke
 - Gap-fill mode selector (`gap`/`grow`/`adapt`) with a customizable gap colour
