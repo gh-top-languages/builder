@@ -7,6 +7,7 @@ Interactive builder for [gh-top-languages/api](https://github.com/gh-top-languag
 
 ## Features
 - Live chart preview with configurable theme, colours, type, count, size, and stroke
+- Gap-fill mode selector (`gap`/`grow`/`adapt`) with a customizable gap colour
 - Per-language colour customization
 - Embed URL and markdown snippet generator for READMEs and websites
 

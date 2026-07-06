@@ -1,9 +1,9 @@
-import { THEMES                             } from "@gh-top-languages/lib/constants/themes.js";
-import type { Language                      } from "@gh-top-languages/lib/types.js";
-import { generateChartData                  } from "@gh-top-languages/lib/render/chart.js";
-import { renderSvg                          } from "@gh-top-languages/lib/render/svg.js";
 import { DEFAULT_CONFIG                     } from "@gh-top-languages/lib/constants/config.js";
-import { parseQueryParams, type QueryParams } from "@gh-top-languages/lib/utils/params.js";
+import { THEMES                             } from "@gh-top-languages/lib/constants/themes.js";
+import { type Language                      } from "@gh-top-languages/lib/charts/types.js";
+import { generateChartData                  } from "@gh-top-languages/lib/charts/generate.js";
+import { renderSvg                          } from "@gh-top-languages/lib/render/svg.js";
+import { type QueryParams, parseQueryParams } from "@gh-top-languages/lib/utils/params.js";
 
 import testData from "./data/test-data.json";
 const DEFAULT_LANGUAGES = testData as Language[];
@@ -58,6 +58,23 @@ function updateColourPickers(): void {
     row.appendChild(input);
     container.appendChild(row);
   }
+
+  const gapRow   = document.createElement("div");
+  gapRow.className = "colour-picker-row";
+
+  const gapLabel       = document.createElement("label");
+  gapLabel.htmlFor     = "gap";
+  gapLabel.textContent = "Gap";
+
+  const gapInput   = document.createElement("input");
+  gapInput.type    = "color";
+  gapInput.id      = "gap";
+  gapInput.value   = THEMES.default.gap;
+  gapInput.addEventListener("input", () => renderChart(DEFAULT_LANGUAGES));
+
+  gapRow.appendChild(gapLabel);
+  gapRow.appendChild(gapInput);
+  container.appendChild(gapRow);
 }
 
 function buildParams(): ReturnType<typeof parseQueryParams> {
@@ -72,6 +89,7 @@ function buildParams(): ReturnType<typeof parseQueryParams> {
     width:  getInputValue("width",  String(DEFAULT_CONFIG.WIDTH)),
     height: getInputValue("height", String(DEFAULT_CONFIG.HEIGHT)),
     stroke: strokeEl?.checked ? "true" : "false",
+    gap_type: getInputValue("gap_type", "gap"),
   };
 
   if (isNone) {
@@ -80,6 +98,8 @@ function buildParams(): ReturnType<typeof parseQueryParams> {
       const el = document.getElementById(`c${i}`) as HTMLInputElement | null;
       if (el) query[`c${i}`] = el.value.slice(1);
     }
+     const gapEl = document.getElementById("gap") as HTMLInputElement | null;
+     if (gapEl) query['gap'] = gapEl.value.slice(1);
   }
 
   return parseQueryParams(query);
@@ -107,12 +127,17 @@ function buildEmbedUrl(baseUrl: string): string {
   const strokeEl = document.getElementById("stroke") as HTMLInputElement | null;
   if (strokeEl?.checked) q.push("stroke=true");
 
+  const gapType = getInputValue("gap_type", "gap");
+  if (gapType !== "gap") q.push(`gap_type=${gapType}`);
+
   if (isNone) {
     const countNum = parseInt(count, 10);
     for (let i = 1; i <= countNum; i++) {
       const el = document.getElementById(`c${i}`) as HTMLInputElement | null;
       if (el) q.push(`c${i}=${el.value.slice(1)}`);
     }
+    const gapEl = document.getElementById("gap") as HTMLInputElement | null;
+    if (gapEl) q.push(`gap=${gapEl.value.slice(1)}`);
   }
 
   return q.length > 0 ? `${baseUrl}?${q.join("&")}` : baseUrl;
@@ -138,6 +163,7 @@ function renderChart(languages: Language[]): void {
     languages.slice(0, params.count),
     params.selectedTheme,
     params.chartType,
+    params.gapType,
     params.stroke
   );
   const svg = renderSvg(
@@ -200,6 +226,8 @@ function init(): void {
   ["type", "width", "height", "stroke"].forEach(id =>
     document.getElementById(id)?.addEventListener("change", () => renderChart(DEFAULT_LANGUAGES))
   );
+
+  document.getElementById("gap_type")?.addEventListener("change", () => renderChart(DEFAULT_LANGUAGES));
 
   document.getElementById("theme")?.addEventListener("change", () => {
     updateColourPickers();
