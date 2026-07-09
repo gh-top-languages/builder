@@ -13,7 +13,7 @@ Interactive builder for [gh-top-languages/api](https://github.com/gh-top-languag
 - Per-language colour customization
 - Embed URL and markdown snippet generator for READMEs and websites
 
-## **Website**
+## Website
 - [**gh-top-languages-builder**](https://masonletoile.ca/gh-top-languages-builder)
 
 ## Tech Stack
