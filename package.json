@@ -8,11 +8,12 @@
   },
   "license": "MIT",
   "author": "Mason L'Etoile",
-    "repository": {
+  "repository": {
     "type": "git",
     "url": "git+https://github.com/gh-top-languages/builder.git"
   },
   "type": "module",
+  "engines": { "node": ">=22" },
   "scripts": {
     "typecheck": "tsc --noEmit",
     "dev": "vite",
