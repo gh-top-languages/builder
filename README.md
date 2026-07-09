@@ -2,7 +2,7 @@
 
 Interactive builder for [gh-top-languages/api](https://github.com/gh-top-languages/api) — preview charts, customize settings, and generate embeddable URLs and Markdown snippets for GitHub READMEs and websites.
 
-[![CI](https://github.com/gh-top-languages/api/actions/workflows/ci.yml/badge.svg)](https://github.com/gh-top-languages/api/actions/workflows/ci.yml)
+[![CI](https://github.com/gh-top-languages/builder/actions/workflows/ci.yml/badge.svg)](https://github.com/gh-top-languages/builder/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green)](./LICENSE)
 
 ![Example Page](images/page.png)
