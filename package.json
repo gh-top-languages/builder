@@ -1,5 +1,6 @@
 {
   "name": "@gh-top-languages/builder",
+  "private": true,
   "description": "Interactive builder for testing, previewing, and exporting gh-top-languages chart configurations",
   "homepage": "https://github.com/gh-top-languages/builder#readme",
   "bugs": {
