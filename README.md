@@ -8,6 +8,14 @@ Interactive builder for [gh-top-languages/api](https://github.com/gh-top-languag
 
 ![Example Page](images/page.png)
 
+## Tech Stack
+<p align="left">
+  <img height="35" src="https://img.shields.io/badge/HTML5-%23E34F26?logo=html5&logoColor=white&style=for-the-badge"/>
+  <img height="35" src="https://img.shields.io/badge/CSS3-%231572B6?logo=css3&logoColor=white&style=for-the-badge"/>
+  <img height="35" src="https://img.shields.io/badge/TypeScript-%23007ACC?logo=typescript&logoColor=white&style=for-the-badge"/>
+  <img height="35" src="https://img.shields.io/badge/Vite-%2300C0FF?logo=vite&logoColor=white&style=for-the-badge"/>
+</p>
+
 ## Features
 - Live chart preview with configurable theme, colours, type, count, size, and stroke
 - Gap-fill mode selector (`gap`/`grow`/`adapt`) with a customizable gap colour
@@ -17,13 +25,11 @@ Interactive builder for [gh-top-languages/api](https://github.com/gh-top-languag
 ## Website
 - [**gh-top-languages-builder**](https://masonletoile.ca/gh-top-languages-builder)
 
-## Tech Stack
-<p align="left">
-  <img height="35" src="https://img.shields.io/badge/HTML5-%23E34F26?logo=html5&logoColor=white&style=for-the-badge"/>
-  <img height="35" src="https://img.shields.io/badge/CSS3-%231572B6?logo=css3&logoColor=white&style=for-the-badge"/>
-  <img height="35" src="https://img.shields.io/badge/TypeScript-%23007ACC?logo=typescript&logoColor=white&style=for-the-badge"/>
-  <img height="35" src="https://img.shields.io/badge/Vite-%2300C0FF?logo=vite&logoColor=white&style=for-the-badge"/>
-</p>
+## API
+Deploy your generated charts with [@gh-top-languages/api](https://github.com/gh-top-languages/api) — an embeddable SVG endpoint for READMEs and websites.
+
+## Library
+Chart rendering, theming, and parameter parsing are powered by [@gh-top-languages/lib](https://github.com/gh-top-languages/lib).
 
 ## Deployment & Configuration
 
