@@ -3,7 +3,7 @@
 Interactive builder for [gh-top-languages/api](https://github.com/gh-top-languages/api) — preview charts, customize settings, and generate embeddable URLs and Markdown snippets for GitHub READMEs and websites.
 
 [![CI](https://github.com/gh-top-languages/builder/actions/workflows/ci.yml/badge.svg)](https://github.com/gh-top-languages/builder/actions/workflows/ci.yml)
-![Node](https://img.shields.io/badge/Node.js-20+-green)
+![Node](https://img.shields.io/badge/Node.js-22+-green)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green)](./LICENSE)
 
 ![Example Page](images/page.png)
@@ -29,7 +29,7 @@ Interactive builder for [gh-top-languages/api](https://github.com/gh-top-languag
 
 ### Prerequisites
 - npm
-- Node.js 20+
+- Node.js 22+
 
 ### 1. Clone the Repository
 ```bash
