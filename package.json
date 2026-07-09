@@ -2,15 +2,15 @@
   "name": "@gh-top-languages/builder",
   "version": "1.0.0",
   "description": "Interactive builder for testing, previewing, and exporting github-top-languages chart configurations",
-  "author": "Mason L'Etoile",
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/gh-top-languages/builder.git"
-  },
   "homepage": "https://github.com/gh-top-languages/builder#readme",
   "bugs": {
     "url": "https://github.com/gh-top-languages/builder/issues"
+  },
+  "license": "MIT",
+  "author": "Mason L'Etoile",
+    "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gh-top-languages/builder.git"
   },
   "type": "module",
   "scripts": {
