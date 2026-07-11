@@ -8,6 +8,16 @@ import { type QueryParams, parseQueryParams } from "@gh-top-languages/lib/utils/
 import testData from "./data/test-data.json";
 const DEFAULT_LANGUAGES = testData as Language[];
 
+const PARAM_DEFAULTS: Record<string, string> = {
+  theme:    "default",
+  type:     "donut",
+  count:    String(DEFAULT_CONFIG.COUNT),
+  width:    String(DEFAULT_CONFIG.WIDTH),
+  height:   String(DEFAULT_CONFIG.HEIGHT),
+  gap_type: "gap",
+  title:    DEFAULT_CONFIG.TITLE,
+};
+
 function getInputValue(id: string, fallback: string): string {
   const el = document.getElementById(id) as HTMLInputElement | HTMLSelectElement | null;
   return el?.value ?? fallback;
@@ -77,23 +87,22 @@ function updateColourPickers(): void {
   container.appendChild(gapRow);
 }
 
-function buildParams(): ReturnType<typeof parseQueryParams> {
-  const titleEl  = document.getElementById("title")      as HTMLInputElement | null;
-  const hideEl   = document.getElementById("hide_title") as HTMLInputElement | null;
-  const count  = getInputValue("count", String(DEFAULT_CONFIG.COUNT));
+function readForm(): QueryParams {
   const isNone = isNoneTheme();
-  const strokeEl = document.getElementById("stroke") as HTMLInputElement | null;
+  const hidden = (document.getElementById("hide_title") as HTMLInputElement | null)?.checked ?? false;
+  const stroke = (document.getElementById("stroke")     as HTMLInputElement | null)?.checked ?? false;
+  const count  = getInputValue("count", String(DEFAULT_CONFIG.COUNT));
 
   const query: QueryParams = {
-    title:      titleEl?.value || undefined,
-    hide_title: hideEl?.checked ? "true" : undefined,
-    theme:  isNone ? undefined : getInputValue("theme", "default"),
-    type:   getInputValue("type",   "donut"),
+    hide_title: hidden ? "true" : undefined,
+    title:      hidden ? undefined : (getInputValue("title", "") || undefined),
+    theme:      isNone ? undefined : getInputValue("theme", "default"),
+    type:       getInputValue("type",   "donut"),
     count,
-    width:  getInputValue("width",  String(DEFAULT_CONFIG.WIDTH)),
-    height: getInputValue("height", String(DEFAULT_CONFIG.HEIGHT)),
-    stroke: strokeEl?.checked ? "true" : "false",
-    gap_type: getInputValue("gap_type", "gap"),
+    width:      getInputValue("width",  String(DEFAULT_CONFIG.WIDTH)),
+    height:     getInputValue("height", String(DEFAULT_CONFIG.HEIGHT)),
+    stroke:     stroke ? "true" : undefined,
+    gap_type:   getInputValue("gap_type", "gap"),
   };
 
   if (isNone) {
@@ -102,55 +111,17 @@ function buildParams(): ReturnType<typeof parseQueryParams> {
       const el = document.getElementById(`c${i}`) as HTMLInputElement | null;
       if (el) query[`c${i}`] = el.value.slice(1);
     }
-     const gapEl = document.getElementById("gap") as HTMLInputElement | null;
-     if (gapEl) query['gap'] = gapEl.value.slice(1);
+    const gapEl = document.getElementById("gap") as HTMLInputElement | null;
+    if (gapEl) query["gap"] = gapEl.value.slice(1);
   }
 
-  return parseQueryParams(query);
+  return query;
 }
 
 function buildEmbedUrl(baseUrl: string): string {
-  const q: string[] = [];
-  const isNone = isNoneTheme();
-
-  const hideTitle = (document.getElementById("hide_title") as HTMLInputElement | null)?.checked;
-  if (hideTitle) {
-    q.push("hide_title=true");
-  } else {
-    const title = getInputValue("title", "");
-    if (title && title !== DEFAULT_CONFIG.TITLE) q.push(`title=${encodeURIComponent(title)}`);
-  }
-
-  const theme = getInputValue("theme", "default");
-  if (!isNone && theme !== "default") q.push(`theme=${theme}`);
-
-  const type = getInputValue("type", "donut");
-  if (type !== "donut") q.push(`type=${type}`);
-
-  const count = getInputValue("count", String(DEFAULT_CONFIG.COUNT));
-  if (count !== String(DEFAULT_CONFIG.COUNT)) q.push(`count=${count}`);
-
-  const width = getInputValue("width", String(DEFAULT_CONFIG.WIDTH));
-  if (width !== String(DEFAULT_CONFIG.WIDTH)) q.push(`width=${width}`);
-
-  const height = getInputValue("height", String(DEFAULT_CONFIG.HEIGHT));
-  if (height !== String(DEFAULT_CONFIG.HEIGHT)) q.push(`height=${height}`);
-
-  const strokeEl = document.getElementById("stroke") as HTMLInputElement | null;
-  if (strokeEl?.checked) q.push("stroke=true");
-
-  const gapType = getInputValue("gap_type", "gap");
-  if (gapType !== "gap") q.push(`gap_type=${gapType}`);
-
-  if (isNone) {
-    const countNum = parseInt(count, 10);
-    for (let i = 1; i <= countNum; i++) {
-      const el = document.getElementById(`c${i}`) as HTMLInputElement | null;
-      if (el) q.push(`c${i}=${el.value.slice(1)}`);
-    }
-    const gapEl = document.getElementById("gap") as HTMLInputElement | null;
-    if (gapEl) q.push(`gap=${gapEl.value.slice(1)}`);
-  }
+  const q = Object.entries(readForm())
+    .filter(([key, val]) => val !== undefined && val !== PARAM_DEFAULTS[key])
+    .map(([key, val]) => `${key}=${encodeURIComponent(val as string)}`);
 
   return q.length > 0 ? `${baseUrl}?${q.join("&")}` : baseUrl;
 }
@@ -170,7 +141,7 @@ function renderChart(languages: Language[]): void {
   const preview = document.getElementById("chart-preview");
   if (!preview) return;
 
-  const params = buildParams();
+  const params = parseQueryParams(readForm());
   const result = generateChartData(
     languages.slice(0, params.count),
     params.selectedTheme,
