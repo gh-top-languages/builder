@@ -78,11 +78,15 @@ function updateColourPickers(): void {
 }
 
 function buildParams(): ReturnType<typeof parseQueryParams> {
+  const titleEl  = document.getElementById("title")      as HTMLInputElement | null;
+  const hideEl   = document.getElementById("hide_title") as HTMLInputElement | null;
   const count  = getInputValue("count", String(DEFAULT_CONFIG.COUNT));
   const isNone = isNoneTheme();
   const strokeEl = document.getElementById("stroke") as HTMLInputElement | null;
 
   const query: QueryParams = {
+    title:      titleEl?.value || undefined,
+    hide_title: hideEl?.checked ? "true" : undefined,
     theme:  isNone ? undefined : getInputValue("theme", "default"),
     type:   getInputValue("type",   "donut"),
     count,
@@ -108,6 +112,14 @@ function buildParams(): ReturnType<typeof parseQueryParams> {
 function buildEmbedUrl(baseUrl: string): string {
   const q: string[] = [];
   const isNone = isNoneTheme();
+
+  const hideTitle = (document.getElementById("hide_title") as HTMLInputElement | null)?.checked;
+  if (hideTitle) {
+    q.push("hide_title=true");
+  } else {
+    const title = getInputValue("title", "");
+    if (title && title !== DEFAULT_CONFIG.TITLE) q.push(`title=${encodeURIComponent(title)}`);
+  }
 
   const theme = getInputValue("theme", "default");
   if (!isNone && theme !== "default") q.push(`theme=${theme}`);
@@ -227,7 +239,18 @@ function init(): void {
     document.getElementById(id)?.addEventListener("change", () => renderChart(DEFAULT_LANGUAGES))
   );
 
-  document.getElementById("gap_type")?.addEventListener("change", () => renderChart(DEFAULT_LANGUAGES));
+  document.getElementById("title")?.addEventListener("input", () => renderChart(DEFAULT_LANGUAGES));
+
+  const hideEl  = document.getElementById("hide_title") as HTMLInputElement | null;
+  const titleEl = document.getElementById("title")      as HTMLInputElement | null;
+  const syncTitleDisabled = (): void => {
+    if (titleEl && hideEl) titleEl.disabled = hideEl.checked;
+  };
+  syncTitleDisabled();
+  hideEl?.addEventListener("change", () => {
+    syncTitleDisabled();
+    renderChart(DEFAULT_LANGUAGES);
+  });
 
   document.getElementById("theme")?.addEventListener("change", () => {
     updateColourPickers();
@@ -238,6 +261,8 @@ function init(): void {
     updateColourPickers();
     renderChart(DEFAULT_LANGUAGES);
   });
+
+  document.getElementById("gap_type")?.addEventListener("change", () => renderChart(DEFAULT_LANGUAGES));
 
   document.getElementById("api-host")?.addEventListener("input", () => {
     const el = document.getElementById("api-host") as HTMLInputElement | null;
