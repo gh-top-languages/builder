@@ -27,6 +27,25 @@ function isNoneTheme(): boolean {
   return getInputValue("theme", "default") === "none";
 }
 
+function makeColourRow(id: string, labelText: string, value: string): HTMLDivElement {
+  const row = document.createElement("div");
+  row.className = "colour-picker-row";
+
+  const label       = document.createElement("label");
+  label.htmlFor     = id;
+  label.textContent = labelText;
+
+  const input   = document.createElement("input");
+  input.type    = "color";
+  input.id      = id;
+  input.value   = value;
+  input.addEventListener("input", () => renderChart(DEFAULT_LANGUAGES));
+
+  row.appendChild(label);
+  row.appendChild(input);
+  return row;
+}
+
 function updateColourPickers(): void {
   const container = document.getElementById("colour-pickers");
   if (!container) return;
@@ -49,42 +68,13 @@ function updateColourPickers(): void {
 
   for (let i = 0; i < count; i++) {
     const langName = DEFAULT_LANGUAGES[i]?.lang ?? `Colour ${i + 1}`;
-    const colour   = colours[i] ?? "#ffffff";
-
-    const row   = document.createElement("div");
-    row.className = "colour-picker-row";
-
-    const label       = document.createElement("label");
-    label.htmlFor     = `c${i + 1}`;
-    label.textContent = langName;
-
-    const input   = document.createElement("input");
-    input.type    = "color";
-    input.id      = `c${i + 1}`;
-    input.value   = colour;
-    input.addEventListener("input", () => renderChart(DEFAULT_LANGUAGES));
-
-    row.appendChild(label);
-    row.appendChild(input);
-    container.appendChild(row);
+    container.appendChild(makeColourRow(`c${i + 1}`, langName, colours[i] ?? "#ffffff"));
   }
 
-  const gapRow   = document.createElement("div");
-  gapRow.className = "colour-picker-row";
-
-  const gapLabel       = document.createElement("label");
-  gapLabel.htmlFor     = "gap";
-  gapLabel.textContent = "Gap";
-
-  const gapInput   = document.createElement("input");
-  gapInput.type    = "color";
-  gapInput.id      = "gap";
-  gapInput.value   = THEMES.default.gap;
-  gapInput.addEventListener("input", () => renderChart(DEFAULT_LANGUAGES));
-
-  gapRow.appendChild(gapLabel);
-  gapRow.appendChild(gapInput);
-  container.appendChild(gapRow);
+  const theme = THEMES.default;
+  container.appendChild(makeColourRow("bg",   "Background", theme.bg));
+  container.appendChild(makeColourRow("text", "Text",       theme.text));
+  container.appendChild(makeColourRow("gap",  "Gap",        theme.gap));
 }
 
 function readForm(): QueryParams {
@@ -111,8 +101,10 @@ function readForm(): QueryParams {
       const el = document.getElementById(`c${i}`) as HTMLInputElement | null;
       if (el) query[`c${i}`] = el.value.slice(1);
     }
-    const gapEl = document.getElementById("gap") as HTMLInputElement | null;
-    if (gapEl) query["gap"] = gapEl.value.slice(1);
+    for (const id of ["bg", "text", "gap"] as const) {
+      const el = document.getElementById(id) as HTMLInputElement | null;
+      if (el) query[id] = el.value.slice(1);
+    }
   }
 
   return query;
