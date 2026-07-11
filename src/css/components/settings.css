@@ -21,6 +21,11 @@ label {
   border-color: var(--accent);
 }
 
+.input:disabled {
+  opacity: 0.6;
+  cursor:  not-allowed;
+}
+
 #colour-pickers {
   gap:            0.4rem;
   display:        flex;
@@ -127,4 +132,18 @@ input[type="checkbox"] {
 
 .url-input-row .input:focus {
   border-color: transparent;
+}
+
+.toggle-row {
+  display:     flex;
+  align-items: center;
+  gap:         0.5rem;
+}
+
+.toggle-row label {
+  margin-left: 0.75rem;
+}
+
+.toggle-row label:first-child {
+  margin-left: 0;
 }
