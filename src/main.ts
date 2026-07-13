@@ -1,4 +1,4 @@
-import { DEFAULT_CONFIG                     } from "@gh-top-languages/lib/constants/config.js";
+import { DEFAULT_CONFIG, PARAM_DEFAULTS     } from "@gh-top-languages/lib/constants/config.js";
 import { THEMES                             } from "@gh-top-languages/lib/constants/themes.js";
 import { type Language                      } from "@gh-top-languages/lib/charts/types.js";
 import { generateChartData                  } from "@gh-top-languages/lib/charts/generate.js";
@@ -8,13 +8,13 @@ import { type QueryParams, parseQueryParams } from "@gh-top-languages/lib/utils/
 import testData from "./data/test-data.json";
 const DEFAULT_LANGUAGES = testData as Language[];
 
-const PARAM_DEFAULTS: Record<string, string> = {
-  theme:    "default",
-  type:     "donut",
+const PARAM_DEFAULTS_UI: Record<string, string> = {
+  theme:    PARAM_DEFAULTS.THEME,
+  type:     PARAM_DEFAULTS.TYPE,
   count:    String(DEFAULT_CONFIG.COUNT),
   width:    String(DEFAULT_CONFIG.WIDTH),
   height:   String(DEFAULT_CONFIG.HEIGHT),
-  gap_type: "gap",
+  gap_type: PARAM_DEFAULTS.GAP_TYPE,
   title:    DEFAULT_CONFIG.TITLE,
 };
 
@@ -112,7 +112,7 @@ function readForm(): QueryParams {
 
 function buildEmbedUrl(baseUrl: string): string {
   const q = Object.entries(readForm())
-    .filter(([key, val]) => val !== undefined && val !== PARAM_DEFAULTS[key])
+    .filter(([key, val]) => val !== undefined && val !== PARAM_DEFAULTS_UI[key])
     .map(([key, val]) => `${key}=${encodeURIComponent(val as string)}`);
 
   return q.length > 0 ? `${baseUrl}?${q.join("&")}` : baseUrl;
