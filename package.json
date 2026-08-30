@@ -22,7 +22,7 @@
   },
   "dependencies": { "@gh-top-languages/lib": "^1.2.4" },
   "devDependencies": {
-    "typescript": "~6.0.2",
+    "typescript": "~7.0.2",
     "vite": "^6.0.0"
   }
 }
